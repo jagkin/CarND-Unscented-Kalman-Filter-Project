@@ -64,10 +64,10 @@ Used Eclipse plugin https://github.com/google/styleguide/blob/gh-pages/eclipse-c
 
 ## Project Rubric points
 
-# Your code should compile.
+### Your code should compile.
 The code can be compiled using cmake and make. No changes were made to CMakeLists.txt
 
-# Your px, py, vx, and vy RMSE should be less than or equal to the values [.09, .10, .40, .30]. 
+### Your px, py, vx, and vy RMSE should be less than or equal to the values [.09, .10, .40, .30]. 
 The application,UnscentedKF, provides following RMSE values when run in different modes,
 
 1. Use LASER and RADAR measurements.
@@ -82,22 +82,22 @@ RMSE: 0.1713 0.1481 0.6180 0.2607
 DISABLE_LASER=1 ./build/UnscentedKF
 RMSE: 0.2113 0.2656 0.3827 0.2946
 
-# Your Sensor Fusion algorithm follows the general processing flow as taught in the preceding lessons.
+### Your Sensor Fusion algorithm follows the general processing flow as taught in the preceding lessons.
 Code in ukf.cpp follows the general processing flow of Kalaman filters i.e Initialization -> Prediction ->  Update.
 
-# Your Kalman Filter algorithm handles the first measurements appropriately.
+### Your Kalman Filter algorithm handles the first measurements appropriately.
 State vectors and covariance matrices are initialized properly in ukf.cpp
 
-# Your Kalman Filter algorithm first predicts then updates.
+### Your Kalman Filter algorithm first predicts then updates.
 Function ProcessMeasurements() first predicts state/covariance to current timestamps and then updates using RADAR/LASER measurements.
 
-# Your Kalman Filter can handle radar and lidar measurements.
+### Your Kalman Filter can handle radar and lidar measurements.
 ukf.cpp contains functions UpdateRadar() and UpdateLidar() to handle update step with RADAR/LASER measurments.
 
-# Your algorithm should avoid unnecessary calculations.
+### Your algorithm should avoid unnecessary calculations.
 The code does not have any unnecessary processing blocks. There could be potential optimizations I have not explored.
 
-# Observation of the results.
+### Observation of the results.
 1. The RMSE values are significantly lower when using sensor fusion compared to RADAR or LASER alone.
 2. The RMSE values for vx and vy are lower for UKF compared to EKF. However I see that px and py RMSE values are higher for UKF compared to EKF when using LASER measurements alone. This could be due to sub optimal tuning of noise values.
 3. The initial value for std_a was based on max acceleration observed in the ground truth values (Added a code section under DUMP_GROUND_TRUTH_STATS in tools.cpp to dump these values). The max acceleration observed in x direction was ~2.8 so I chose 1.40 as initial value.
