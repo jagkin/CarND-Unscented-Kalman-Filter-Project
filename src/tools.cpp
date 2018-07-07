@@ -65,7 +65,7 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
   cout << endl << endl;
 #endif
 
-#if 1
+#if DUMP_GROUND_TRUTH_STATS
   static double prev_vx = 0, prev_vy = 0, max_ax = 0, max_ay = 0;
   // ground truth is px py vx vy yaw yawrate
   double vx = ground_truth[num_entries-1](2);
