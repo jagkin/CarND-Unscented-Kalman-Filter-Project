@@ -70,17 +70,17 @@ The code can be compiled using cmake and make. No changes were made to CMakeList
 ### Your px, py, vx, and vy RMSE should be less than or equal to the values [.09, .10, .40, .30]. 
 The application,UnscentedKF, provides following RMSE values when run in different modes,
 
-1. Use LASER and RADAR measurements.
-./build/UnscentedKF
-RMSE: 0.0686 0.0826 0.3364 0.2182
+1. Use LASER and RADAR measurements.  <\br>
+./build/UnscentedKF <\br>
+RMSE: 0.0686 0.0826 0.3364 0.2182 <\br>
 
-2. Use LASER measurements only.
-DISABLE_RADAR=1 ./build/UnscentedKF
-RMSE: 0.1713 0.1481 0.6180 0.2607
+2. Use LASER measurements only. <\br>
+DISABLE_RADAR=1 ./build/UnscentedKF <\br>
+RMSE: 0.1713 0.1481 0.6180 0.2607 <\br>
  
-3. Use RADAR measurements only.
-DISABLE_LASER=1 ./build/UnscentedKF
-RMSE: 0.2113 0.2656 0.3827 0.2946
+3. Use RADAR measurements only. <\br>
+DISABLE_LASER=1 ./build/UnscentedKF <\br>
+RMSE: 0.2113 0.2656 0.3827 0.2946 <\br>
 
 ### Your Sensor Fusion algorithm follows the general processing flow as taught in the preceding lessons.
 Code in ukf.cpp follows the general processing flow of Kalaman filters i.e Initialization -> Prediction ->  Update.
