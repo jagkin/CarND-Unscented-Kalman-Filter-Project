@@ -1,7 +1,9 @@
 # Unscented Kalman Filter Project Starter Code
 Self-Driving Car Engineer Nanodegree Program
 
-In this project utilize an Unscented Kalman Filter to estimate the state of a moving object of interest with noisy lidar and radar measurements. Passing the project requires obtaining RMSE values that are lower that the tolerance outlined in the project rubric. 
+This is my submission for Term2 Project 2 of Udacity's Self Driving Car Nanodegree.
+
+In this project I utilized an Unscented Kalman Filter to estimate the state of a moving object of interest with noisy lidar and radar measurements. Passing the project requires obtaining RMSE values that are lower that the tolerance outlined in the project rubric. 
 
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
 
@@ -17,12 +19,7 @@ Once the install for uWebSocketIO is complete, the main program can be built and
 
 Tips for setting up your environment can be found [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
 
-Note that the programs that need to be written to accomplish the project are src/ukf.cpp, src/ukf.h, tools.cpp, and tools.h
-
-The program main.cpp has already been filled out, but feel free to modify it.
-
 Here is the main protcol that main.cpp uses for uWebSocketIO in communicating with the simulator.
-
 
 INPUT: values provided by the simulator to the c++ program
 
@@ -60,33 +57,48 @@ OUTPUT: values provided by the c++ program to the simulator
 4. Run it: `./UnscentedKF` Previous versions use i/o from text files.  The current state uses i/o
 from the simulator.
 
-## Editor Settings
+## Code Stylesed 
 
-We've purposefully kept editor configuration files out of this repo in order to
-keep it as simple and environment agnostic as possible. However, we recommend
-using the following settings:
+Used [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html) as much as possible.
+Used Eclipse plugin https://github.com/google/styleguide/blob/gh-pages/eclipse-cpp-google-style.xml to automate the formatting.
 
-* indent using spaces
-* set tab width to 2 spaces (keeps the matrices in source code aligned)
+## Project Rubric points
 
-## Code Style
+# Your code should compile.
+The code can be compiled using cmake and make. No changes were made to CMakeLists.txt
 
-Please stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html) as much as possible.
+# Your px, py, vx, and vy RMSE should be less than or equal to the values [.09, .10, .40, .30]. 
+The application,UnscentedKF, provides following RMSE values when run in different modes,
 
-## Generating Additional Data
+1. Use LASER and RADAR measurements.
+./build/UnscentedKF
+RMSE: 0.0686 0.0826 0.3364 0.2182
 
-This is optional!
+2. Use LASER measurements only.
+DISABLE_RADAR=1 ./build/UnscentedKF
+RMSE: 0.1713 0.1481 0.6180 0.2607
+ 
+3. Use RADAR measurements only.
+DISABLE_LASER=1 ./build/UnscentedKF
+RMSE: 0.2113 0.2656 0.3827 0.2946
 
-If you'd like to generate your own radar and lidar data, see the
-[utilities repo](https://github.com/udacity/CarND-Mercedes-SF-Utilities) for
-Matlab scripts that can generate additional data.
+# Your Sensor Fusion algorithm follows the general processing flow as taught in the preceding lessons.
+Code in ukf.cpp follows the general processing flow of Kalaman filters i.e Initialization -> Prediction ->  Update.
 
-## Project Instructions and Rubric
+# Your Kalman Filter algorithm handles the first measurements appropriately.
+State vectors and covariance matrices are initialized properly in ukf.cpp
 
-This information is only accessible by people who are already enrolled in Term 2
-of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/c3eb3583-17b2-4d83-abf7-d852ae1b9fff/concepts/f437b8b0-f2d8-43b0-9662-72ac4e4029c1)
-for instructions and the project rubric.
+# Your Kalman Filter algorithm first predicts then updates.
+Function ProcessMeasurements() first predicts state/covariance to current timestamps and then updates using RADAR/LASER measurements.
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+# Your Kalman Filter can handle radar and lidar measurements.
+ukf.cpp contains functions UpdateRadar() and UpdateLidar() to handle update step with RADAR/LASER measurments.
 
+# Your algorithm should avoid unnecessary calculations.
+The code does not have any unnecessary processing blocks. There could be potential optimizations I have not explored.
+
+# Observation of the results.
+1. The RMSE values are significantly lower when using sensor fusion compared to RADAR or LASER alone.
+2. The RMSE values for vx and vy are lower for UKF compared to EKF. However I see that px and py RMSE values are higher for UKF compared to EKF when using LASER measurements alone. This could be due to sub optimal tuning of noise values.
+3. The initial value for std_a was based on max acceleration observed in the ground truth values (Added a code section under DUMP_GROUND_TRUTH_STATS in tools.cpp to dump these values). The max acceleration observed in x direction was ~2.8 so I chose 1.40 as initial value.
+4. The initial value for std_yawdd was set to M_PI/16 assuming M_PI/8 as typical yaw rate as described in "Parameters and Consistency" section in lectures. I played around with different values and then settled on M_PI/4 by looking at NIS values (specially RADAR) and RMSE values.
